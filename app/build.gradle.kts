@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -29,8 +30,13 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
+
+        }
+        debug {
+
+            buildConfigField("String",  "api_key", "\" $\"")
         }
     }
     compileOptions {
@@ -43,6 +49,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -53,10 +60,22 @@ android {
         }
     }
 
+    flavorDimensions("location_source")
+
+    productFlavors {
+        create("us") {
+            dimension = "location_source"
+            buildConfigField("String", "SOURCE", "\"us\"")
+        }
+        create("gb") {
+            dimension = "location_source"
+            buildConfigField("String", "SOURCE", "\"in\"")
+        }
+    }
 }
 
 dependencies {
-
+    implementation("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.0")
@@ -78,6 +97,10 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.4")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.4")
+    implementation ("androidx.biometric:biometric-ktx:1.2.0-alpha05")
+    testImplementation ("org.mockito:mockito-core:3.12.4")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

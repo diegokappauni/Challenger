@@ -4,12 +4,9 @@ import Article
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
-import com.example.challenger.R
 import com.example.challenger.databinding.ActivityContentHomeNewsBinding
-import com.example.challenger.databinding.ActivityHomeNewsBinding
 
 class ContentHomeNews : AppCompatActivity() {
     private lateinit var binding: ActivityContentHomeNewsBinding
@@ -25,6 +22,8 @@ class ContentHomeNews : AppCompatActivity() {
         Glide.with(this)
             .load(extra?.urlToImage).into(binding.imageArticle)
 
+        binding.title.text = extra?.title
+        binding.description.text = extra?.description
         binding.content.text = extra?.content
 
 

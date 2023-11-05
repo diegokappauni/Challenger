@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.challenger.databinding.CardArticleBinding
-import com.example.challenger.ui.listener.HomeNewsListener
+import com.example.challenger.listener.HomeNewsListener
 import com.example.challenger.ui.viewholder.HolderHomeNews
 
 class HomeNewsAdapter(
-    private val listOfNews: List<Article>?,
+    private val listOfNews: List<Article?>,
     private val context: Context,
     private val listener: HomeNewsListener
 ) :
@@ -24,13 +24,13 @@ class HomeNewsAdapter(
     }
 
     override fun onBindViewHolder(holder: HolderHomeNews, position: Int) {
-        holder.bind(listOfNews?.get(position))
+        holder.bind(listOfNews[position])
         holder.itemView.setOnClickListener {
-            listener.onItemClick(listOfNews?.get(position))
+            listener.onItemClick(listOfNews[position])
         }
     }
 
     override fun getItemCount(): Int {
-        return listOfNews?.size ?: 0
+        return listOfNews.size
     }
 }

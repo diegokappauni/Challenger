@@ -13,5 +13,4 @@ class HolderHomeNews(private val binding: CardArticleBinding, private val contex
         binding.title.text = article?.title
         Glide.with(context).load(article?.urlToImage).into(binding.imageNew)
     }
-
 }

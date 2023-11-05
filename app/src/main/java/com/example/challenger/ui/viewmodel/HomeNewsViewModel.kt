@@ -8,15 +8,15 @@ import com.example.challenger.data.repository.RetrofitRepository
 import kotlinx.coroutines.launch
 
 class HomeNewsViewModel : ViewModel() {
-    private val repository = RetrofitRepository()
-
     val articlesLiveData = MutableLiveData<List<Article>>()
+
+    private var retrofitRepository =  RetrofitRepository()
 
     fun fetchArticles() {
         viewModelScope.launch {
-            val response = repository.getNews()
-            articlesLiveData.postValue(response.body()
-                ?.articles?.filter {
+            val response = retrofitRepository.getNews()
+            articlesLiveData.postValue(response.body()?.articles
+                ?.filter {
                     !it.title.isNullOrBlank()
                             && !it.author.isNullOrBlank()
                             && !it.urlToImage.isNullOrBlank()
@@ -24,6 +24,8 @@ class HomeNewsViewModel : ViewModel() {
                             && !it.content.isNullOrBlank()
                             && !it.publishedAt.isNullOrBlank()
                             && !it.description.isNullOrBlank()
+                            && !it.source?.id.isNullOrBlank()
+                            && !it.source?.name.isNullOrBlank()
                 }
                 ?.sortedBy { it.publishedAt })
         }
